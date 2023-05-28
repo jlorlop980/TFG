@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Marck+Script&display=swap');
+
+:root {
+    --azul: #3D405B;
+    --blanco: #F4F1DE;
+    --amarillo: #F2CC8F;
+    --verde: #81B29A;
+    --naranja: #E07A5F;
+    --font-family: Arial, sans-serif;
+    --caligrafy: 'Marck Script';
+  }
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+.boton{
+  border-radius: 50vw;
+  background-color: var(--verde);
+  width: fit-content;
+  padding: 10px;
+}
+
+
+
+ 
+

@@ -1,0 +1,36 @@
+@import url("./global.css");
+
+
+
+.container{
+    /* background-color: var(--amarillo); */
+    position: absolute;
+    height: 100vh;
+    width: 30vw;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column nowrap;
+    background-image: url("../images/userFlowBG.svg");
+    background-position: 85%;
+}
+
+.title{
+    color: var(--blanco);
+    font-family: var(--caligrafy);
+    position: absolute;
+    top: 1rem;
+    font-size: 5rem;
+}
+
+.cruz{
+    width: 2.5vw;
+    height: 2.5vw;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    color:  var(--blanco);
+}
