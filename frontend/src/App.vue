@@ -11,7 +11,7 @@ function handleLogin(){
     console.log(login.value);
 }
 const api= new apiService();
-api.getAllArtists().then((res:any) => {
+api.getAllGenres().then((res:any) => {
   console.log(res.data);
 });
 
