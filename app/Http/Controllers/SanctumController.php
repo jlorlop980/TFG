@@ -35,7 +35,7 @@ class SanctumController extends Controller
     {
         $this->validate($request, [
             'mail' => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'required'
         ]);
 
         $user = User::where('mail', $request->mail)->first();

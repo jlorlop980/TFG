@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favorites;
+use App\Models\Songs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,12 @@ class FavoritesController extends Controller
     {
         $idUser = Auth::user()->id;
 
+        //check if the song exist
+        $song = Songs::find($id);
+        if (!$song) {
+            return response()->json(['message' => 'Song not found'], 404);
+        }
+
         $favorite = Favorites::where('id_user', $idUser)->where('id_song', $id)->first();
 
         if ($favorite) {
@@ -31,7 +38,7 @@ class FavoritesController extends Controller
 
         $favorite = Favorites::create([
             'id_user' => $idUser,
-            'id_song' => $id
+            'id_song' =>$song->id
         ]);
 
         return response()->json($favorite, 201);

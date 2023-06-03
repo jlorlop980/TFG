@@ -41,6 +41,10 @@ class PlaylistController extends Controller
         if (!$playlist) {
             return response()->json(['message' => 'Playlist not found'], 404);
         }
+        //delete all songs in the playlist first
+        $playlist->songs()->detach();
+
+        //delete the playlist
         $playlist->delete();
         return response()->json(['message' => 'Playlist deleted'], 200);
     }
@@ -71,9 +75,49 @@ class PlaylistController extends Controller
         return response()->json(['message' => 'Song added to the playlist'], 200);
     }
 
-
-    public function removeSongFromPlaylist()
+    public function deleteSongFromPlaylist(Request $request, $id)
     {
-        //
+        //Compruebo que la playlist le pertenece al usuario que hace la petición
+        $id_user= Auth::user()->id;
+        $playlist = Playlists::where('id', $id)->where('id_users', $id_user)->first();
+        if (!$playlist) {
+            return response()->json(['message' => 'Playlist not found'], 404);
+        }
+
+        //Compruebo que la canción existe
+        $song = Songs::where('id', $request->id_song)->first();
+        if (!$song) {
+            return response()->json(['message' => 'Song not found'], 404);
+        }
+
+        //Compruebo que la canción está en la playlist
+        $songInPlaylist = $playlist->songs()->where('id_song', $request->id_song)->first();
+        if (!$songInPlaylist) {
+            return response()->json(['message' => 'Song not in the playlist'], 400);
+        }
+
+        $playlist->songs()->detach($request->id_song);
+        return response()->json(['message' => 'Song deleted from the playlist'], 200);
     }
+
+    public function changePlaylistName(Request $request, $id)
+    {
+        //Compruebo que la playlist le pertenece al usuario que hace la petición
+        $id_user= Auth::user()->id;
+        $playlist = Playlists::where('id', $id)->where('id_users', $id_user)->first();
+        if (!$playlist) {
+            return response()->json(['message' => 'Playlist not found'], 404);
+        }
+
+        //Compruebo que la playlist no existe ya
+        $playlistCheck = Playlists::where('name', $request->name)->where('id_users', $id_user)->first();
+        if ($playlistCheck) {
+            return response()->json(['message' => 'This playlist already exist'], 400);
+        }
+
+        $playlist->name = $request->name;
+        $playlist->save();
+        return response()->json(['message' => 'Playlist name changed'], 200);
+    }
+
 }

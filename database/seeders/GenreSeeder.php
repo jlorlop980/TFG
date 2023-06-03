@@ -14,7 +14,7 @@ class GenreSeeder extends Seeder
      */
     public function run()
     {
-        $genres = ['lofi','ambient', 'japanese', 'vaporwave', 'chillhop'];
+        $genres = ['NoGenre','lofi','ambient', 'japanese', 'vaporwave', 'chillhop'];
         foreach ($genres as $genre) {
             Genres::create([
                 'name' => $genre,

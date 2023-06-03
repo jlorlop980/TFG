@@ -18,16 +18,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 //users
 Route::post('/register', 'App\Http\Controllers\SanctumController@register');
 Route::post('/login', 'App\Http\Controllers\SanctumController@login');
 Route::get('/logout', 'App\Http\Controllers\SanctumController@logout')->middleware('auth:sanctum');
 
+
 //genres
 Route::get('/genres', 'App\Http\Controllers\GenresController@getAllGenres');
 Route::get('/genre/{id}', 'App\Http\Controllers\GenresController@genreById');
 Route::post('/genre', 'App\Http\Controllers\GenresController@create')->middleware('auth:sanctum');;
-Route::delete('/genre/{id}', 'App\Http\Controllers\GenresController@deleteGenreById')->middleware('auth:sanctum');;
+Route::delete('/genre/{id}', 'App\Http\Controllers\GenresController@deleteGenreById')->middleware('auth:sanctum');
+Route::put('/genre/{id}', 'App\Http\Controllers\GenresController@updateGenreById')->middleware('auth:sanctum');
+
 
 //songs
 Route::get('/songs', 'App\Http\Controllers\SongsController@getAllSongs');
@@ -44,11 +48,14 @@ Route::get('/artist/{id}', 'App\Http\Controllers\ArtistsController@getArtistById
 Route::post('/artist', 'App\Http\Controllers\ArtistsController@create')->middleware('auth:sanctum');;
 Route::delete('/artist/{id}', 'App\Http\Controllers\ArtistsController@deleteArtistById')->middleware('auth:sanctum');;
 
+
 //playlists
 Route::get('/playlists', 'App\Http\Controllers\PlaylistController@getAllPlaylist')->middleware('auth:sanctum');
 Route::post('/playlist', 'App\Http\Controllers\PlaylistController@createPlaylist')->middleware('auth:sanctum');
 Route::delete('/playlist/{id}', 'App\Http\Controllers\PlaylistController@deletePlaylist')->middleware('auth:sanctum');
-Route::post('/playlist/{id}', 'App\Http\Controllers\PlaylistController@addSongToPlaylist')->middleware('auth:sanctum');
+Route::post('/playlist/{id}/song', 'App\Http\Controllers\PlaylistController@addSongToPlaylist')->middleware('auth:sanctum');
+Route::delete('/playlist/{id}/song', 'App\Http\Controllers\PlaylistController@deleteSongFromPlaylist')->middleware('auth:sanctum');
+Route::put('/playlist/{id}', 'App\Http\Controllers\PlaylistController@changePlaylistName')->middleware('auth:sanctum');
 
 
 //favorites

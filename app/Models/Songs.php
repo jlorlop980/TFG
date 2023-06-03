@@ -14,6 +14,7 @@ class Songs extends Model
         'id_artist',
         'id_genre',
         'url',
+        'duration',
         'created_at',
         'updated_at'
     ];

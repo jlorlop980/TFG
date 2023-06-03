@@ -113,6 +113,14 @@ services:
             - "8000:8000"
         networks:
             - sail
+    phpmyadmin:
+        image: 'phpmyadmin:latest'
+        ports:   
+           - 8080:80
+        networks:
+           - sail
+        environment:
+           - PMA_ARBITRARY=1
 
 networks:
     sail:

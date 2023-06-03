@@ -11,7 +11,9 @@ class Artists extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'bio',
+        'mail'
     ];
 
     protected $hidden = [
