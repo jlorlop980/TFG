@@ -27,14 +27,40 @@ class SongsController extends Controller
             return response()->json(['message' => 'You are not authorized to perform this action'], 401);
         }
 
+        //check if the request has all the fields
+        if (!$request->name || !$request->id_artist || !$request->id_genre || !$request->song || !$request->duration) {
+            return response()->json([
+                'message' => 'Please provide all the required fields'
+            ], 422);
+        }
+
+        // Verificar si el artista y el género existen
+        $artist = Artists::find($request->id_artist);
+        if (!$artist) {
+            return response()->json([
+                'message' => 'Artist not found'
+            ], 404);
+        }
+        $genre = Genres::find($request->id_genre);
+        if (!$genre) {
+            return response()->json([
+                'message' => 'Genre not found'
+            ], 404);
+        }
+        //verificar si el nombre de la canción ya existe
+        $song = Songs::where('name', $request->name)->first();
+        if ($song) {
+            return response()->json([
+                'message' => 'Song already exists'
+            ], 409);
+        }
+
         // Decodificar el archivo de audio y asignar un nombre aleatorio para evitar que se pisen los nombres
         $datosBinarios = base64_decode($request->song);
         $fileName = Str::random(10) . '.mp3';
 
         // Guardar el archivo en la carpeta public/storage
         file_put_contents(public_path('storage/' . $fileName), $datosBinarios);
-
-
 
         $song = Songs::create([
             'name' => $request->name,
@@ -85,6 +111,13 @@ public function getSongsByArtist($id)
                 'message' => 'Song not found'
             ], 404);
         }
+        //check if the request has at least 1 field to update
+        if (!$request->name && !$request->id_artist && !$request->id_genre && !$request->song && !$request->duration) {
+            return response()->json([
+                'message' => 'Please provide at least one field to update'
+            ], 400);
+        }
+
         //check value in case the request has genre id or artist id that the artist or genre exist before updating
         if ($request->id_genre) {
             $genre = Genres::find($request->id_genre);

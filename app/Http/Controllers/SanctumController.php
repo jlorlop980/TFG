@@ -11,11 +11,22 @@ class SanctumController extends Controller
     //register
     public function register(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'mail' => 'required|email',
-            'password' => 'required|min:6'
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            "name" => "required|string",
+            "mail" => "required|email",
+            "password" => "required|min:6",
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        //check if the mail already exist
+        $mailCheck = User::where('mail', $request->mail)->first();
+        if ($mailCheck) {
+            return response()->json(['message' => 'Mail already exist'], 400);
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -33,10 +44,12 @@ class SanctumController extends Controller
     //login
     public function login(Request $request)
     {
-        $this->validate($request, [
-            'mail' => 'required|email',
-            'password' => 'required'
-        ]);
+        // check if the request has a mail and password
+        if (!$request->mail || !$request->password) {
+            return response()->json([
+                'message' => 'Mail and password are required'
+            ], 400);
+        }
 
         $user = User::where('mail', $request->mail)->first();
 
@@ -60,6 +73,7 @@ class SanctumController extends Controller
     {
         //delete the token of the loged in user with sanctum
         $request->user()->currentAccessToken()->delete();
+
         //devolver mensaje "logout exitoso"
         return response()->json([
             'message' => 'User logged out successfully'

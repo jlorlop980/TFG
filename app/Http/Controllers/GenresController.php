@@ -12,7 +12,6 @@ class GenresController extends Controller
 
     public function getAllGenres()
     {
-        Auth::user();
         return  Genres::all();
     }
 
@@ -23,11 +22,17 @@ class GenresController extends Controller
             return response()->json(['message' => 'You are not authorized to perform this action'], 401);
         }
 
+        //check if the request has a name
+        if (!$request->name) {
+            return response()->json(['message' => 'Genre name is required'], 400);
+        }
+
         //Check if the genre name already exist
         $genreCheck = Genres::where('name', $request->name)->first();
         if ($genreCheck) {
             return response()->json(['message' => 'Genre name already exist'], 400);
         }
+
 
         //create a new genre
         $genre = Genres::create([
@@ -74,6 +79,7 @@ class GenresController extends Controller
         if (!$genre) {
             return response()->json(['message' => 'Genre not found'], 404);
         }
+
         if (!$request->name) {
             return response()->json(['message' => 'Genre name is required'], 400);
         }

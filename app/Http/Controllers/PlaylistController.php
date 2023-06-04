@@ -27,6 +27,11 @@ class PlaylistController extends Controller
         if ($playlist) {
             return response()->json(['message' => 'This playlist already exist'], 400);
         }
+        //check if the name is empty
+        if (!$request->name) {
+            return response()->json(['message' => 'The name is empty'], 400);
+        }
+
         $playlist = Playlists::create([
             'name' => $request->name,
             'id_users' => $id
@@ -107,6 +112,10 @@ class PlaylistController extends Controller
         $playlist = Playlists::where('id', $id)->where('id_users', $id_user)->first();
         if (!$playlist) {
             return response()->json(['message' => 'Playlist not found'], 404);
+        }
+        //check if the name is empty
+        if (!$request->name) {
+            return response()->json(['message' => 'The name is empty'], 400);
         }
 
         //Compruebo que la playlist no existe ya

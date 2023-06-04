@@ -21,6 +21,14 @@ class ArtistsController extends Controller
         if (!Auth::user()->is_admin) {
             return response()->json(['message' => 'You are not authorized to perform this action'], 401);
         }
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            "name" => "required|string",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Some fields are missing'], 400);
+        }
         //create a new artist
         $artist = Artists::create([
             'name' => $request->name,
@@ -49,6 +57,7 @@ class ArtistsController extends Controller
         if (!Auth::user()->is_admin) {
             return response()->json(['message' => 'You are not authorized to perform this action'], 401);
         }
+
         //edit an artist by id and if not exist return 404
         $artist = Artists::find($id);
         if (!$artist) {
@@ -83,6 +92,7 @@ class ArtistsController extends Controller
         if (!Auth::user()->is_admin) {
             return response()->json(['message' => 'You are not authorized to perform this action'], 401);
         }
+
         //change the artist id to null in the songs table with this artist id
         $songs = Songs::where('id_artist', $id)->get();
         foreach ($songs as $song) {
@@ -97,6 +107,7 @@ class ArtistsController extends Controller
                 'message' => 'Artist not found'
             ], 404);
         }
+
         $artist->delete();
         return $artist;
     }
