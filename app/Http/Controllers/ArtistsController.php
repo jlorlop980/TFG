@@ -45,7 +45,36 @@ class ArtistsController extends Controller
 
     public function edit(Request $request,$id)
     {
-        //
+        //check first if the user is admin
+        if (!Auth::user()->is_admin) {
+            return response()->json(['message' => 'You are not authorized to perform this action'], 401);
+        }
+        //edit an artist by id and if not exist return 404
+        $artist = Artists::find($id);
+        if (!$artist) {
+            return response()->json([
+                'message' => 'Artist not found'
+            ], 404);
+        }
+
+        //update only the values that are in the request
+        if (!$request->name && !$request->bio && !$request->mail) {
+            return response()->json([
+                'message' => 'Bad request'
+            ], 400);
+        }
+        if ($request->name) {
+            $artist->name = $request->name;
+        }
+        if ($request->bio) {
+            $artist->bio = $request->bio;
+        }
+        if ($request->mail) {
+            $artist->mail = $request->mail;
+        }
+
+        $artist->save();
+        return $artist;
     }
 
     public function deleteArtistById($id)

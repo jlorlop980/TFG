@@ -40,13 +40,15 @@ Route::get('/songs/genre/{id}', 'App\Http\Controllers\SongsController@getSongsBy
 Route::get('/songs/artist/{id}', 'App\Http\Controllers\SongsController@getSongsByArtist');
 Route::post('/song', 'App\Http\Controllers\SongsController@create')->middleware('auth:sanctum');
 Route::delete('/song/{id}', 'App\Http\Controllers\SongsController@deleteById')->middleware('auth:sanctum');
+Route::put('/song/{id}', 'App\Http\Controllers\SongsController@edit')->middleware('auth:sanctum');
 
 
 //artists
 Route::get('/artists', 'App\Http\Controllers\ArtistsController@getAllArtist');
 Route::get('/artist/{id}', 'App\Http\Controllers\ArtistsController@getArtistById');
-Route::post('/artist', 'App\Http\Controllers\ArtistsController@create')->middleware('auth:sanctum');;
-Route::delete('/artist/{id}', 'App\Http\Controllers\ArtistsController@deleteArtistById')->middleware('auth:sanctum');;
+Route::post('/artist', 'App\Http\Controllers\ArtistsController@create')->middleware('auth:sanctum');
+Route::delete('/artist/{id}', 'App\Http\Controllers\ArtistsController@deleteArtistById')->middleware('auth:sanctum');
+Route::put('/artist/{id}', 'App\Http\Controllers\ArtistsController@edit')->middleware('auth:sanctum');
 
 
 //playlists
