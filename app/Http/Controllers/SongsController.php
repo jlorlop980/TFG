@@ -137,6 +137,7 @@ public function getSongsByArtist($id)
         }
         //update the song
         $song->update($request->all());
+        return response()->json($song);
     }
 
 
@@ -153,11 +154,14 @@ public function getSongsByArtist($id)
                 'message' => 'Song not found'
             ], 404);
         }
+
+
+
         //delete the register from the playlist table and the favorites table that has this song id
-        $SongPlaylists = song_playlist::where('id_song', $id)->get();
-        foreach ($SongPlaylists as $playlist) {
-            $playlist->delete();
-        }
+        $SongPlaylists = song_playlist::where('id_song', $id)->delete();
+
+
+
         $favorites = Favorites::where('id_song', $id)->get();
         foreach ($favorites as $favorite) {
             $favorite->delete();
@@ -165,5 +169,8 @@ public function getSongsByArtist($id)
 
         //delete the song
         $song->delete();
+        return response()->json([
+            'message' => 'Song deleted successfully'
+        ]);
     }
 }

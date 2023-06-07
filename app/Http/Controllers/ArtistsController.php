@@ -6,6 +6,7 @@ use App\Models\Artists;
 use App\Models\Songs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ArtistsController extends Controller
 {
@@ -29,6 +30,13 @@ class ArtistsController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => 'Some fields are missing'], 400);
         }
+
+        //check if the artist name already exist
+        $artistCheck = Artists::where('name', $request->name)->first();
+        if ($artistCheck) {
+            return response()->json(['message' => 'Artist name already exist'], 400);
+        }
+
         //create a new artist
         $artist = Artists::create([
             'name' => $request->name,
