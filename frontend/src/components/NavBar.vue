@@ -1,8 +1,16 @@
 // nav with login, favorites, playlist and search
 <script lang="ts">
-
+interface Props {
+  user: string;
+}
 export default {
-
+  
+  props: {
+    user: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       count: 0
@@ -45,8 +53,8 @@ export default {
     <div class="navbar">
         <p class="element" v-on:click="clickedPlaylist">Playlist</p>
         <p class="element" v-on:click="clickedFavorites">Favorites</p>
-        <p class="element title" v-on:click="clickedTitle">Lofi Player</p>
-        <p class="element" v-on:click="clickedAccount">Account</p>
+        <p class="element titleNavbar" v-on:click="clickedTitle">Lofi Player</p>
+        <p class="element" v-on:click="clickedAccount">{{user}}</p>
         <p class="element" v-on:click="clickedSearch">Search</p>
     </div>
 </template>

@@ -21,8 +21,9 @@ export class apiService {
 /**
  * token related
  */
-    public getToken() {
+    public getToken() : string{
         this.token = localStorage.getItem('token') || '';
+        return this.token;
     }
   
     public setToken() {
@@ -61,6 +62,11 @@ export class apiService {
         this.setToken();
         return this.api.get('/favorites');
     }
+
+    public async deleteFavorite(id: number): Promise<AxiosResponse<any>> {
+        this.setToken();
+        return this.api.delete(`/favorite/${id}`);
+    }        
 
 
 /**

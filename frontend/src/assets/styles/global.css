@@ -1,22 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Marck+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;700&display=swap');
 
+
+/* Variables */
 :root {
-    --azul: #3D405B;
-    --blanco: #F4F1DE;
-    --amarillo: #F2CC8F;
-    --verde: #81B29A;
-    --naranja: #E07A5F;
-    --font-family: Arial, sans-serif;
-    --caligrafy: 'Marck Script';
-  }
+  --azul: #3D405B;
+  --blanco: #F4F1DE;
+  --amarillo: #F2CC8F;
+  --verde: #81B29A;
+  --naranja: #E07A5F;
+  --font-family: Arial, sans-serif;
+  --caligrafy: 'Marck Script';
+  --normal: 'Catamaran';
+}
 
-
+/* Reset de estilos básicos */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Transicion de vue vanilla para que se adapten los contenedores a esta animacion */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
@@ -27,11 +32,66 @@
   opacity: 0;
 }
 
+
 .boton{
   border-radius: 50vw;
   background-color: var(--verde);
   width: fit-content;
   padding: 10px;
+}
+
+.white{
+  color: var(--blanco);
+}
+
+.f-Cat{
+  font-family: var(--normal);
+}
+.f-Marck{
+  font-family: var(--caligrafy);
+}
+
+
+/* Estilos para toast */
+.toast{
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40vw;
+  border-radius: 500px;
+}
+
+.toastSuccess{
+  background-color: var(--verde);
+  color: var(--blanco);
+  border-radius: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.toastError{
+  background-color: var(--rojo);
+  color: var(--blanco);
+}
+
+
+.title{
+  color: var(--blanco);
+  font-family: var(--caligrafy);
+  position: absolute;
+  top: 1rem;
+  font-size: 5rem;
+}
+
+.title-azul{
+  color: var(--azul);
+  font-family: var(--caligrafy);
+  position: absolute;
+  top: 1rem;
+  font-size: 5rem;
 }
 
 

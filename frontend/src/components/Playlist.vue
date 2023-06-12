@@ -1,36 +1,63 @@
 //Control playlist
 <script lang="ts">
+import { apiService } from '../services/apiService'
+
 export default {
-  // Properties returned from data() become reactive state
-  // and will be exposed on `this`.
+
   data() {
     return {
-      count: 0
+      apiService: new apiService(), //apiService
+      token: "", //string
     }
   },
 
-  // Methods are functions that mutate state and trigger updates.
-  // They can be bound as event listeners in templates.
   methods: {
     increment() {
-      this.count++
+      
     }
   },
 
-  // Lifecycle hooks are called at different stages
-  // of a component's lifecycle.
-  // This function will be called when the component is mounted.
+
   mounted() {
-    console.log(`The initial count is ${this.count}.`)
+    this.token=this.apiService.getToken();
+    if(this.token){
+      //this.getFavorites();
+    }else{
+      console.log("no hay token")
+    }
   }
 }
 </script>
 
 <template>
-
+ <div>
+    <div class="container">
+      <h3 class="title-azul">Playlist</h3>
+      <!-- Favorites -->
+      <div class="playlist" v-if="token">
+        <!-- <div class="favorite" v-for="favorite in favorites" :key="favorite.id">
+          <img src="../assets/icons/removeLike.svg" @click="removeLike(favorite.id)">
+          <p>{{favorite.songs.name}}</p>
+          <img src="../assets/icons/playNegro.svg">
+        </div> -->
+      </div>
+      <p class="white" v-if="!token">LogIn to see your PLaylist</p>
+      <!-- <p @click="close()" class="white">asdas</p> -->
+    </div> 
+    <!-- <Transition>
+      <div v-if="toast" class="toast">
+        <div class="toastError" v-if="toastError">
+          <p>Ha ocurrido un error</p>
+        </div>
+        <div class="toastSuccess" v-if="toastSuccess">
+          <p>{{ toastMessage }}</p>
+        </div>
+      </div>
+    </Transition> -->
+  </div>
 </template>
 
-<style scoped>
+<style scoped src="../assets/styles/playlist.css">
 
 
 </style>

@@ -24,3 +24,10 @@ export interface Genre {
     id:   number;
     name: string;
 }
+
+export interface Favorite {
+    id:        number;
+    id_users:  number;
+    id_song:  number;
+    songs:      Song;
+}
