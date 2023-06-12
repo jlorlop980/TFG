@@ -11,6 +11,7 @@ export default {
       required: true
     }
   },
+  
   data() {
     return {
       count: 0

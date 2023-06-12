@@ -28,7 +28,7 @@ export class apiService {
   
     public setToken() {
         this.getToken();
-      this.api.defaults.headers.common.Authorization = `Bearer ${this.token}`;
+        this.api.defaults.headers.common.Authorization = `Bearer ${this.token}`;
     }
   
 
@@ -80,15 +80,22 @@ export class apiService {
 /**
  * playlist calls
  */
-      public async getallPublicPlaylists(): Promise<AxiosResponse<any>> {
-        return this.api.get('/playlists/public');
-      }
-
-
-      public async getAllUserPlaylists(): Promise<AxiosResponse<any>> {
+    public async getAllPlaylists(): Promise<AxiosResponse<any>> {
         this.setToken();
         return this.api.get('/playlists');
-      }
+    }
+
+    public async deletePlaylist(id: number): Promise<AxiosResponse<any>> {
+        this.setToken();
+        return this.api.delete(`/playlist/${id}`);
+    }
+
+    public async deleteSongFromPlaylist(playlistId: number, id_song: number): Promise<AxiosResponse<any>> {
+        this.setToken();
+        return this.api.delete(`/playlist/${playlistId}/song/`, {
+            data:{id_song}
+            });
+    }
 
 /**
  * genre calls

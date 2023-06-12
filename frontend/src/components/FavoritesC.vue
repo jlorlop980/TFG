@@ -3,12 +3,20 @@
 import { apiService } from '../services/apiService'
 import { Favorite } from '../models/AllModels'
 
-export default {
+interface Props {
+  favorites: Favorite[];
+}
 
+export default {
+  props: {
+    favorites: {
+      type: Array as () => Favorite[],
+      required: true
+    }
+  },
   data() {
     return {
       apiService: new apiService(), //apiService
-      favorites: [] as Favorite[], //Favorites
       token: "", //string
       toast: false, //boolean
       toastError: false, //string
@@ -19,14 +27,7 @@ export default {
   },
 
   methods: {
-    getFavorites(){
-      this.apiService.getAllFavorites(this.token).then((response) => {
-        console.log(response);
-        this.favorites = response.data;
-      }).catch((error) => {
-        console.log(error);
-      });
-    },
+    
     close(){
       this.$emit('close');
     },
@@ -41,7 +42,8 @@ export default {
           this.toastMessage = "";
         }, 3000);
         console.log(response);
-        this.getFavorites();
+        //hacer emit "removed"
+        this.$emit('removed');
       }).catch((error) => {
         console.log(error);
       });
@@ -50,11 +52,7 @@ export default {
 
   mounted() {
     this.token=this.apiService.getToken();
-    if(this.token){
-      this.getFavorites();
-    }else{
-      console.log("no hay token")
-    }
+    console.log(this.favorites)
   }
 }
 </script>

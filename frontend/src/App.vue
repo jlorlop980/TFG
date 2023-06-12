@@ -1,56 +1,108 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+
 import NavBar from './components/NavBar.vue';
-import UserFlow from './components/UserFlow.vue';
-import { apiService } from './services/apiService'
-import Favorites from './components/Favorites.vue';
-import Playlist from './components/Playlist.vue';
+import UserFlowC from './components/UserFlowC.vue';
+import { apiService } from './services/apiService';
+import FavoritesC from './components/FavoritesC.vue';
+import PlaylistC from './components/PlaylistC.vue';
+import SearchC from './components/SearchC.vue';
 
-const login= ref(false);
-const fav= ref(false);
-const playli= ref(false);
-const user= ref("account");
+//modelos
+import { Playlist, Favorite, Song, Artist, Genre } from "./models/AllModels"
+export default {
+  components: {
+    NavBar,
+    UserFlowC,
+    FavoritesC,
+    PlaylistC,
+    SearchC
+  },
 
-function handleLogin(){
-    login.value=!login.value;
-    console.log(login.value);
-}
+  data() {
+    return {
+      apiService: new apiService(), //apiService
+      login: false,
+      fav: false,
+      playli: false,
+      user: 'account',
+      token: '',
+      favorites: [] as Favorite[],
+      playlists: [] as Playlist[],
+      songs: [] as Song[],
+    };
+  },
 
-function handleFav(){
-  fav.value=!fav.value;
-  console.log(fav.value);
-}
+  methods: {
+    handleLogin() {
+      this.login = !this.login;
+      console.log(this.login);
+    },
 
-function handlePlaylist(){
-  playli.value=!playli.value;
-  console.log(playli.value);
-}
+    handleFav() {
+      this.fav = !this.fav;
+      console.log(this.fav);
+    },
 
-const api= new apiService();
-api.getAllGenres().then((res:any) => {
-  console.log(res.data);
-});
+    handlePlaylist() {
+      this.playli = !this.playli;
+      console.log(this.playli);
+    },
 
-function handleLog(){
-  login.value=false;
-  user.value="user";
-  console.log("sesion iniciada")
-}
+    handleLog() {
+      this.login = false;
+      this.user = 'user';
+      console.log('sesion iniciada');
+    },
+    getFavorites(){
+      this.apiService.getAllFavorites(this.token).then((response) => {
+        this.favorites = response.data;
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    getPlaylist() {
+      this.apiService
+        .getAllPlaylists()
+        .then((response) => {
+          this.playlists = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getSongs(){
+      this.apiService.getAllSongs().then((response) => {
+        this.songs = response.data;
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+  },
 
+  mounted() {
+    this.token = this.apiService.getToken();
+    this.getSongs();
+    if(this.token){
+      this.getFavorites()
+      this.getPlaylist();
+    }
+  },
+
+};
 </script>
 
 <template>
     <div class="main">
-        <NavBar @accClicked="handleLogin()" user="user" @favClicked="handleFav()" @plClicked="handlePlaylist()"></NavBar>
+        <NavBar @accClicked="handleLogin()" :user="user" @favClicked="handleFav()" @plClicked="handlePlaylist()"></NavBar>
         <Transition >
-          <UserFlow v-if="login" @close="() => login=false" @logged="handleLog"></UserFlow>
+          <UserFlowC v-if="login" @close="() => login=false" @logged="handleLog"></UserFlowC>
         </Transition>
         <Transition>
-          <Favorites v-if="fav" @close="() => fav=false"></Favorites>
+          <FavoritesC v-if="fav" @close="() => fav=false" @removed="getFavorites()" :favorites="favorites"></FavoritesC>
         </Transition>
         <Transition>
-          <Playlist v-if="playli" @close="() => playli=false"></Playlist>
+          <PlaylistC v-if="playli" @close="() => playli=false" @removed="getPlaylist()" :playlists="playlists"></PlaylistC>
         </Transition>
     </div>
 </template>
