@@ -18,8 +18,6 @@ class FavoritesSeeder extends Seeder
           ["id_users" => 1, "id_songs" => 5],
           ["id_users" => 1, "id_songs" => 6],
           ["id_users" => 1, "id_songs" => 7],
-          ["id_users" => 1, "id_songs" => 8],
-          ["id_users" => 1, "id_songs" => 9]
         ];
         foreach($favorites as $favorite){
             Favorites::create([

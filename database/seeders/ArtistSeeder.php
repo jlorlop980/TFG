@@ -17,24 +17,34 @@ class ArtistSeeder extends Seeder
 
         $artists = [
             [
-                'name' => 'NoArtist',
+                'name' => 'Unkown',
                 'bio' => 'NoBio',
                 'mail' => 'NoMail'
             ],
             [
                 'name' => 'kupla',
-                'bio' => 'Kupla is a Finnish producer and beatmaker. He has been making music for over 10 years and has released over 20 albums. His music is a mix of jazz, hip hop and lofi.',
+                'bio' => 'NoBio',
                 'mail' => 'test@test.com'
             ],
             [
-                'name' => 'glimpse',
-                'bio' => 'Glimpse is a Finnish producer and beatmaker. He has been making music for over 10 years and has released over 20 albums. His music is a mix of jazz, hip hop and lofi.',
+                'name' => 'Color Parade',
+                'bio' => 'NoBio',
                 'mail' => 'prueba@prueba.es'
             ],
             [
-                'name' => 'siloh',
-                'bio' => 'Siloh is a Finnish producer and beatmaker. He has been making music for over 10 years and has released over 20 albums. His music is a mix of jazz, hip hop and lofi.',
+                'name' => 'Musikal',
+                'bio' => 'Nobio',
                 'mail' => 'example@example.com'
+            ],
+            [
+                'name' => 'Chillmore',
+                'bio' => 'NoBio',
+                'mail' => 'example@example.es'
+            ],
+            [
+                'name' => 'Lofi_hour',
+                'bio' => 'NoBio',
+                'mail' => 'example@prueba.com'
             ]
         ];
 

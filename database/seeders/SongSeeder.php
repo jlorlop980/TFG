@@ -15,17 +15,13 @@ class SongSeeder extends Seeder
     public function run()
     {
         $songs = [
-            ["name"=>"eons", "id_artist"=>2, "id_genre"=>2, "url"=>"storage/NnkPspHA46.mp3","duration"=>"100"],
-            ["name"=>"song1","id_artist"=>2, "id_genre"=>2, "url"=>"storage/NnkPspHA46.mp3","duration"=>"200"],
-            ["name"=>"song2","id_artist"=>2, "id_genre"=>2, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"],
-            ["name"=>"song3","id_artist"=>3, "id_genre"=>3, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"],
-            ["name"=>"song4","id_artist"=>3, "id_genre"=>4, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"],
-            ["name"=>"song5","id_artist"=>2, "id_genre"=>3, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"],
-            ["name"=>"song6","id_artist"=>1, "id_genre"=>3, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"],
-            ["name"=>"song7","id_artist"=>2, "id_genre"=>3, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"],
-            ["name"=>"song8","id_artist"=>3, "id_genre"=>3, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"],
-            ["name"=>"song9","id_artist"=>2, "id_genre"=>4, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"],
-            ["name"=>"song10","id_artist"=>3, "id_genre"=>2, "url"=>"storage/NnkPspHA46.mp3","duration"=>"320"]
+            ["name"=>"eons", "id_artist"=>2, "id_genre"=>2, "url"=>"storage/Eons_Kupla.mp3","duration"=>"207"],
+            ["name"=>"A clearing","id_artist"=>3, "id_genre"=>2, "url"=>"storage/aclearing.mp3","duration"=>"147"],
+            ["name"=>"Alone","id_artist"=>4, "id_genre"=>2, "url"=>"storage/alone.mp3","duration"=>"124"],
+            ["name"=>"Sea Road","id_artist"=>5, "id_genre"=>3, "url"=>"storage/seaRoad.mp3","duration"=>"188"],
+            ["name"=>"Sea Whisper","id_artist"=>5, "id_genre"=>4, "url"=>"storage/seaWhisper.mp3","duration"=>"151"],
+            ["name"=>"Miss","id_artist"=>6, "id_genre"=>3, "url"=>"storage/miss.mp3","duration"=>"151"],
+            ["name"=>"Chosen","id_artist"=>6, "id_genre"=>3, "url"=>"storage/chosen.mp3","duration"=>"207"],
         ];
         foreach($songs as $song){
             Songs::create([
