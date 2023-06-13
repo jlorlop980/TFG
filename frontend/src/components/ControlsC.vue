@@ -1,6 +1,7 @@
 //controls of the song currently playing
 <script lang="ts">
 import { Playlist, Song } from "../models/AllModels";
+import { environment } from "../environments/enviroments";
 
 interface Props {
   currentSong: Song;
@@ -97,10 +98,10 @@ export default {
   },
   watch: {
     currentSong() {
-      this.cancion.src = this.currentSong.url;
+      this.cancion.src = environment.API_URL_STORAGE+this.currentSong.url;
     },
     playlist() {
-      this.cancion.src = this.currentSong.url;
+      this.cancion.src = environment.API_URL_STORAGE+this.currentSong.url;
     },
   },
 
