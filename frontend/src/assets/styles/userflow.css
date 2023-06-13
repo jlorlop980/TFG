@@ -6,30 +6,40 @@
     /* background-color: var(--amarillo); */
     position: absolute;
     height: 100vh;
-    width: 30vw;
+    width: 40vw;
     top: 0;
     right: 0;
     display: flex;
-    justify-content: center;
+
     align-items: center;
     flex-flow: column nowrap;
     background-image: url("../images/userFlowBG.svg");
     background-position: 85%;
 }
 
-
+.toolbar{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: relative;
+}
 
 .cruz{
-    width: 2.5vw;
-    height: 2.5vw;
+    width: 25px;
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    cursor: pointer;
-    color:  var(--blanco);
+    right: 14px;
+    top: 12px;
 }
 
 .change{
     text-decoration: underline;
     color: var(--blanco);
+}
+
+.central{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

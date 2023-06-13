@@ -81,19 +81,27 @@
 .title{
   color: var(--blanco);
   font-family: var(--caligrafy);
-  position: absolute;
-  top: 1rem;
   font-size: 5rem;
 }
 
 .title-azul{
   color: var(--azul);
   font-family: var(--caligrafy);
-  position: absolute;
-  top: 1rem;
   font-size: 5rem;
 }
 
+
+.f-2{
+  font-size: 2rem;
+}
+
+.f-1-5{
+  font-size: 1.75rem;
+}
+
+.f-20p{
+  font-size: 20px;
+}
 
 
  

@@ -11,8 +11,8 @@ export default {
   props: {
     playlists: {
       type: Array as () => Playlist[],
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -22,6 +22,7 @@ export default {
       toastError: false, //string
       toastSuccess: false, //string
       toastMessage: "", //string
+      showSongs: {} as { [key: number]: boolean },
     };
   },
 
@@ -29,7 +30,11 @@ export default {
     close() {
       this.$emit("close");
     },
-    deletePLaylist(id: number) {
+    toggleSongs(playlistId: number) {
+      this.showSongs[playlistId] = !this.showSongs[playlistId];
+    },
+
+    deletePlaylist(id: number) {
       this.apiService
         .deletePlaylist(id)
         .then((response) => {
@@ -48,27 +53,34 @@ export default {
           console.log(error);
         });
     },
-    deletePLaylistSong(idPlaylist: number, idSong: number) {
-      this.apiService.deleteSongFromPlaylist(idPlaylist, idSong).then((response) => {
-        this.toast = true;
-        this.toastSuccess = true;
-        this.toastMessage = "Song removed successfully from Playlist";
-        setTimeout(() => {
-          this.toast = false;
-          this.toastSuccess = false;
-          this.toastMessage = "";
-        }, 3000);
-        console.log(response);
-        this.$emit("removed");
-      }).catch((error) => {
-        console.log(error);
-      }
-      );
-    }
+    playSong(playlistId: number, songId: number) {
+      console.log("pulsado")
+      this.$emit("play", playlistId, songId);
+    },
+    deletePlaylistSong(idPlaylist: number, idSong: number) {
+      this.apiService
+        .deleteSongFromPlaylist(idPlaylist, idSong)
+        .then((response) => {
+          this.toast = true;
+          this.toastSuccess = true;
+          this.toastMessage = "Song removed successfully from Playlist";
+          setTimeout(() => {
+            this.toast = false;
+            this.toastSuccess = false;
+            this.toastMessage = "";
+          }, 3000);
+          console.log(response);
+          this.$emit("removed");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 
   mounted() {
     this.token = this.apiService.getToken();
+    console.log(this.playlists);
   },
 };
 </script>
@@ -76,32 +88,49 @@ export default {
 <template>
   <div>
     <div class="container">
-      <h3 class="title-azul">Playlist</h3>
+      <div class="toolbar">
+        <h3 class="title-azul">Playlists</h3>
+        <img
+          src="../assets/icons/crossAzul.svg"
+          @click="close()"
+          class="cruz"
+        />
+      </div>
       <!-- Playlists -->
       <div class="playlists" v-if="token">
         <div class="playlist" v-for="playlist in playlists" :key="playlist.id">
-          <img
-            src="../assets/icons/removeLike.svg"
-            @click="deletePLaylist(playlist.id)"
-          />
-          <p>{{ playlist.name }}</p>
+          <div class="playlist-header">
+            <img
+              src="../assets/icons/removeLike.svg"
+              class="dislike-icon"
+              @click="deletePlaylist(playlist.id)"
+            />
+            <p class="f-Cat f-1-5"  @click="toggleSongs(playlist.id)">{{ playlist.name }}</p>
+            <img src="../assets/icons/playNegro.svg" class="play-icon" @click="playSong(playlist.id,playlist.songs[0].id)"/>
+          </div>
           <!-- Canciones -->
-          <div class="canciones">
+          <div class="canciones" v-show="showSongs[playlist.id]">
             <div class="cancion" v-for="song in playlist.songs" :key="song.id">
               <img
                 src="../assets/icons/removeLike.svg"
-                @click="deletePLaylistSong(playlist.id, song.id)"
+                class="dislike-icon"
+                @click="deletePlaylistSong(playlist.id, song.id)"
               />
-              <p>{{ song.name }} - {{ song.artist.name=="NoArtist" ? "Artista Desconocido" : song.artist.name }}</p>
-
+              <p class="f-Cat f-20p">
+                <span class="f-Marck">{{ song.name }}</span> -
+                {{
+                  song.artist.name == "NoArtist"
+                    ? "Artista Desconocido"
+                    : song.artist.name
+                }}
+              </p>
+              <img src="../assets/icons/playNegro.svg" class="play-icon" @click="playSong(playlist.id,song.id)"/>
             </div>
-            <img src="../assets/icons/playNegro.svg" />
           </div>
         </div>
-        <img src="../assets/icons/playNegro.svg" />
       </div>
     </div>
-    <p class="white" v-if="!token">LogIn to see your PLaylist</p>
+    <p class="white" v-if="!token">LogIn to see your Playlist</p>
     <p @click="close()" class="white">asdas</p>
 
     <Transition>

@@ -14,7 +14,10 @@ body{
 .main{
     width: 100vw;
     height: 100vh;
-    background-color: coral;
+    background-image: url("../images/mainBG.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .v-enter-active,
