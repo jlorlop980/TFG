@@ -20,6 +20,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+*:focus {
+  outline: none;
+}
 
 /* Transicion de vue vanilla para que se adapten los contenedores a esta animacion */
 .v-enter-active,
@@ -86,6 +89,7 @@
   transform: translate(-50%, -50%);
   width: 40vw;
   border-radius: 500px;
+  font-family: var(--caligrafy);
 }
 
 .toastSuccess{
@@ -162,8 +166,13 @@
 }
 
 
-  
+/* estilos varios de apoyo */
+.separacion{
+  padding-left: 4rem;
+  font-size: 2rem;
+  padding-right: 4rem;
+}
 
-
- 
-
+.mt-2{
+  margin-top: 2rem;
+}

@@ -36,6 +36,10 @@ export default {
     close() {
       this.$emit("close");
     },
+    playClicked(id:number) {
+      console.log("playClicked");
+      this.$emit("playClick",id);
+    },
     getData() {
       this.apiService
         .getAllGenres()
@@ -107,7 +111,7 @@ export default {
         <div class="top-group">
           <div class="input-group">
             <span class="input-group-addon">
-              <img class="icono" src="../assets/icons/mic.svg" />
+              <img class="icono" src="../assets/icons/user.svg" />
             </span>
             <select name="artist" class="f-Marck" v-model="selectedArtist">
               <option value="all">All Artists</option>
@@ -118,7 +122,7 @@ export default {
           </div>
           <div class="input-group">
             <span class="input-group-addon">
-              <img class="icono" src="../assets/icons/user.svg" />
+              <img class="icono" src="../assets/icons/mic.svg" />
             </span>
             <select name="genre" class="f-Marck" v-model="selectedGenre">
               <option value="all">All Genres</option>
@@ -130,14 +134,16 @@ export default {
         </div>
         <div class="input-group">
           <span class="input-group-addon">
-            <img class="icono" src="../assets/icons/user.svg" />
+            <img class="icono" src="../assets/icons/magnifier.svg" />
           </span>
           <input type="text" placeholder="Name" class="f-Marck" v-model="searchName"/>
         </div>
       </div>
       <div class="songs">
-      <div v-for="song in filteredSongs" :key="song.id">
-        <span class="f-Marck">{{ song.name }}</span> - {{ song.artist.name }}
+      <div v-for="song in filteredSongs" :key="song.id" class="song">
+        
+        <p><span class="f-Marck">{{ song.name }}</span> - {{ song.artist.name }}</p>
+        <img src="../assets/icons/playNegro.svg" @click="playClicked(song.id)">
       </div>
     </div>
     </div>

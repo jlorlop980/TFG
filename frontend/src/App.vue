@@ -100,6 +100,7 @@ export default {
         });
     },
     updateCurrentSong(id: number) {
+      console.log("updateCurrentSong");
       this.playbackMode = false;
       let cancion = this.songs.find((song) => song.id === id);
       if (cancion) {
@@ -223,6 +224,7 @@ export default {
         v-if="searc"
         :songs="songs"
         @close="() => (searc = false)"
+        @playClick="updateCurrentSong"
       ></SearchC>
     </Transition>
     <ControlsC :currentSong="currentSong" :songs="songs" :playbackMode="playbackMode" :playlist="playlist" v-if="!isLoading" @next="playNext" @previous="playPrevious"></ControlsC>

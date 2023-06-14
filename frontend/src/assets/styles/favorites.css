@@ -22,7 +22,10 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    overflow-y: scroll;
     gap: 1rem;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .favorite{
@@ -52,10 +55,39 @@
     right: 14px;
     top: 12px;
 }
-
+/* Hide scrollbar for Chrome, Safari and Opera */
+.favorites::-webkit-scrollbar {
+    display: none;
+  }
+  
+  
 
 @media (max-width: 768px) {
     .container{
       width: 100vw;
     }
+    .toast{
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60vw;
+        border-radius: 500px;
+    }
+    .custom-dialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(244, 241, 222, 0.9);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        width: 80vw;
+        height: 20vh;
+        justify-content: space-around;
+        align-items: center;
+        display: flex;
+        flex-flow: column;
+      }
 }

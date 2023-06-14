@@ -84,9 +84,11 @@ export default {
     currentSong() {
       console.log("cambio de cancion");
       this.cancion.pause();
+      this.playing = false;
       this.cancion.src = environment.API_URL_STORAGE + this.currentSong.url;
       this.addEvents();
       this.cancion.play();
+      this.playing = true;
     },
     playlist() {
       this.cancion.src = environment.API_URL_STORAGE + this.currentSong.url;

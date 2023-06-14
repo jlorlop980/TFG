@@ -85,8 +85,8 @@ export default {
     <dialog :open="isOpen" @close="handleClose" class="custom-dialog">
       <p class="f-Marck f-15">{{ dialogText }}</p>
       <div class="dialog-butons">
-        <button class="boton-cancelar" @click="cancel">Cancelar</button>
-        <button class="boton" @click="accept">Aceptar</button>
+        <button class="boton-cancelar" @click="cancel">No</button>
+        <button class="boton" @click="accept">Yes</button>
       </div>
     </dialog>
   </div>
