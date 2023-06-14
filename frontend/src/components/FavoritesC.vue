@@ -22,13 +22,19 @@ export default {
       toastError: false, //string
       toastSuccess: false, //string
       toastMessage: "", //string
-      count: 0,
+      isOpen: false,
+      dialogText: "Are you sure you want to remove this Fav?",
+      possRemFav: 0,//number
     };
   },
 
   methods: {
     close() {
       this.$emit("close");
+    },
+    openDialog(id:number) {
+      this.isOpen = true;
+      this.possRemFav = id;
     },
     removeLike(id: number) {
       this.apiService
@@ -53,6 +59,17 @@ export default {
     playClicked(id:number) {
       this.$emit("playClick",id);
     },
+    handleClose() {
+      this.isOpen = false;
+    },
+    cancel() {
+      this.isOpen = false;
+      console.log("cancelado");
+    },
+    accept() {
+     this.removeLike(this.possRemFav);
+      this.isOpen = false;
+    },
   },
 
   mounted() {
@@ -74,9 +91,9 @@ export default {
         <div class="favorite" v-for="favorite in favorites" :key="favorite.id">
           <img
             src="../assets/icons/removeLike.svg"
-            @click="removeLike(favorite.id)"
+            @click="openDialog(favorite.id)"
           />
-          <p>{{ favorite.songs.name }}</p>
+          <p class="f-Cat">{{ favorite.songs.name }}</p>
           <img src="../assets/icons/playNegro.svg" @click="playClicked(favorite.id_song)"/>
         </div>
       </div>
@@ -85,13 +102,22 @@ export default {
     <Transition>
       <div v-if="toast" class="toast">
         <div class="toastError" v-if="toastError">
-          <p>Ha ocurrido un error</p>
+          <p>{{ toastMessage }}</p>
         </div>
         <div class="toastSuccess" v-if="toastSuccess">
           <p>{{ toastMessage }}</p>
         </div>
       </div>
     </Transition>
+    <div v-if="isOpen" class="dialog-backdrop">
+    <dialog :open="isOpen" @close="handleClose" class="custom-dialog">
+      <p class="f-Marck f-15">{{ dialogText }}</p>
+      <div class="dialog-butons">
+        <button class="boton-cancelar" @click="cancel">Cancelar</button>
+        <button class="boton" @click="accept">Aceptar</button>
+      </div>
+    </dialog>
+  </div>
   </div>
 </template>
 

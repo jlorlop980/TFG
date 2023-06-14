@@ -38,8 +38,17 @@
   background-color: var(--verde);
   width: fit-content;
   padding: 10px;
+  border: 0px;
 }
 
+.boton-cancelar{
+  border-radius: 50vw;
+  background-color: var(--naranja);
+  width: fit-content;
+  padding: 10px;
+  border: 0px;
+}
+/* fonts */
 .white{
   color: var(--blanco);
 }
@@ -47,8 +56,25 @@
 .f-Cat{
   font-family: var(--normal);
 }
+
 .f-Marck{
   font-family: var(--caligrafy);
+}
+
+.f-2{
+  font-size: 2rem;
+}
+
+.f-1-5{
+  font-size: 1.75rem;
+}
+
+.f-20p{
+  font-size: 20px;
+}
+
+.f-15{
+  font-size: 1.5rem;
 }
 
 
@@ -73,8 +99,13 @@
 }
 
 .toastError{
-  background-color: var(--rojo);
+  background-color: var(--naranja);
   color: var(--blanco);
+  border-radius: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }
 
 
@@ -91,17 +122,47 @@
 }
 
 
-.f-2{
-  font-size: 2rem;
+/* dialog */
+.dialog-butons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
 }
 
-.f-1-5{
-  font-size: 1.75rem;
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ajusta el valor de acuerdo a tus necesidades */
 }
 
-.f-20p{
-  font-size: 20px;
+.custom-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(244, 241, 222, 0.9);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 50vmax;
+  height: 30vmin;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+  flex-flow: column;
 }
+
+
+  
 
 
  

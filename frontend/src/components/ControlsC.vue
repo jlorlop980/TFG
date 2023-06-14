@@ -39,78 +39,94 @@ export default {
       duration: 0,
       progress: 0,
       muted: false,
+      totalTime: 0,
     };
   },
 
   // Methods are functions that mutate state and trigger updates.
   // They can be bound as event listeners in templates.
   methods: {
-    playNext() {
-      if (this.currentSongIndex !== -1) {
-        if (this.playbackMode && this.playlist.songs.length > 0) {
-          let nextIndex = this.currentSongIndex + 1;
-
-          if (nextIndex >= this.playlist.songs.length) {
-            nextIndex = 0; // Volver al inicio de la playlist
-          }
-        } else {
-          let nextIndex = this.currentSongIndex + 1;
-
-          if (nextIndex >= this.songs.length) {
-            nextIndex = 0; // Volver al inicio de todas las canciones
-          }
-        }
+    reproduce() {
+      //funcion para poner pausa o play
+      if (!this.playing) {
+        this.cancion.play();
+      } else {
+        this.cancion.pause();
       }
+      this.playing = !this.playing;
+    },
+    reset() {
+      //funcion para reiniciar la cancion
+      this.cancion.currentTime = 0;
+    },
+    playNext() {
+     this.$emit("next");
     },
     playPrevious() {
-      if (this.currentSongIndex !== -1) {
-        if (this.playbackMode && this.playlist.songs.length > 0) {
-          let prevIndex = this.currentSongIndex - 1;
+      this.$emit("previous");
+    },
+    updateCurrentTime(event: any) {
+      this.cancion.currentTime = event.target.value;
+    },
+    addEvents() {
+      //aqui añadimos los eventos para poder usar tanto la barra de volumen como la de tiempo o el timepo como tal que se muestra
 
-          if (prevIndex < 0) {
-            prevIndex = this.playlist.songs.length - 1; // Ir al final de la playlist
-          }
-        } else {
-          let prevIndex = this.currentSongIndex - 1;
-
-          if (prevIndex < 0) {
-            prevIndex = this.songs.length - 1; // Ir al final de todas las canciones
-          }
-        }
-      }
+      this.cancion.addEventListener("timeupdate", () => {
+        this.currentTime = this.cancion.currentTime;
+      });
+      this.cancion.addEventListener("loadedmetadata", () => {
+        this.totalTime = this.cancion.duration;
+      });
     },
   },
-  computed: {
-    currentSongIndex() {
-      if (this.currentSong) {
-        if (this.playbackMode) {
-          return this.playlist.songs.findIndex(
-            (song) => song.id === this.currentSong.id
-          );
-        } else {
-          return this.songs.findIndex(
-            (song) => song.id === this.currentSong.id
-          );
-        }
-      }
-      return -1;
-    },
-  },
+
   watch: {
     currentSong() {
-      this.cancion.src = environment.API_URL_STORAGE+this.currentSong.url;
+      console.log("cambio de cancion");
+      this.cancion.pause();
+      this.cancion.src = environment.API_URL_STORAGE + this.currentSong.url;
+      this.addEvents();
+      this.cancion.play();
     },
     playlist() {
-      this.cancion.src = environment.API_URL_STORAGE+this.currentSong.url;
+      this.cancion.src = environment.API_URL_STORAGE + this.currentSong.url;
     },
   },
 
   mounted() {
-    this.cancion.src = this.currentSong.url;
+    console.log("cancion", this.currentSong);
+    
+    this.cancion.src = environment.API_URL_STORAGE + this.currentSong.url;
+    this.addEvents();
+    this.totalTime = this.cancion.duration;
   },
 };
 </script>
 
-<template></template>
+<template>
+
+  <div class="player">
+    <div class="player-data" v-if="currentSong">
+      <p class="data-name">{{ currentSong.name }}</p>
+      <p class="data-artist">{{ currentSong.artist.name }}</p>
+    </div>
+    <input
+    class="sliderTime"
+    type="range"
+    min="0"
+    :max="totalTime"
+    step="0.01"
+    v-model="currentTime"
+    @input="updateCurrentTime"
+  />
+    <button class="playbutton" v-on:click="reproduce">
+      <img v-if="!playing" src="../assets/icons/playNegro.svg">
+      <img v-else src="../assets/icons/pause.svg">
+      </button>
+  </div>
+  <p @click="reset">reiniciar</p>
+  <p @click="playPrevious">previous</p>
+  <p @click="playNext">next</p>
+</template>
 
 <style scoped></style>

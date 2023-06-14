@@ -30,6 +30,7 @@ export default {
       user: "Login",
       token: "",
       searc: false,
+      isLoading: true,
       favorites: [] as Favorite[],
       playlists: [] as Playlist[],
       playlist: {} as Playlist,
@@ -58,6 +59,8 @@ export default {
       this.login = false;
       this.user = "LogOut";
       console.log("sesion iniciada");
+      this.getFavorites();
+      this.getPlaylist();
     },
     handleSearch() {
       this.searc = !this.searc;
@@ -90,6 +93,7 @@ export default {
         .then((response) => {
           this.songs = response.data;
           this.currentSong = this.songs[0];
+          console.log(this.songs)
         })
         .catch((error) => {
           console.log(error);
@@ -100,10 +104,46 @@ export default {
       let cancion = this.songs.find((song) => song.id === id);
       if (cancion) {
         this.currentSong = cancion;
-        // console.log("--------------------");
-        // console.log("pulsada cancion", this.currentSong);
-        // console.log("--------------------");
+
       }
+    },
+    playNext() {
+    if (this.playbackMode && this.playlist) {
+      const currentIndex = this.playlist.songs.findIndex(song => song.id === this.currentSong.id);
+      let nextIndex = currentIndex + 1;
+      if (nextIndex >= this.playlist.songs.length) {
+        nextIndex = 0; // Si es la última canción de la playlist, volvemos a la primera
+      }
+      this.currentSong = this.playlist.songs[nextIndex];
+    } else {
+      const currentIndex = this.songs.findIndex(song => song.id === this.currentSong.id);
+      let nextIndex = currentIndex + 1;
+      if (nextIndex >= this.songs.length) {
+        nextIndex = 0; // Si es la última canción del conjunto global, volvemos a la primera
+      }
+      this.currentSong = this.songs[nextIndex];
+    }
+  },
+  playPrevious() {
+    if (this.playbackMode && this.playlist) {
+      const currentIndex = this.playlist.songs.findIndex(song => song.id === this.currentSong.id);
+      let prevIndex = currentIndex - 1;
+      if (prevIndex < 0) {
+        prevIndex = this.playlist.songs.length - 1; // Si es la primera canción de la playlist, volvemos a la última
+      }
+      this.currentSong = this.playlist.songs[prevIndex];
+    } else {
+      const currentIndex = this.songs.findIndex(song => song.id === this.currentSong.id);
+      let prevIndex = currentIndex - 1;
+      if (prevIndex < 0) {
+        prevIndex = this.songs.length - 1; // Si es la primera canción del conjunto global, volvemos a la última
+      }
+      this.currentSong = this.songs[prevIndex];
+    }
+  },
+    handleLogout(){
+      this.user = "Login";
+      this.apiService.removeToken();
     },
     playPlaylist(playlistId: number, songId: number) {
       // Obtener la playlist seleccionada
@@ -123,11 +163,6 @@ export default {
 
       // Cambiar el modo de reproducción a playlist
       this.playbackMode = true;
-      // console.log("--------------------");
-      // console.log("pulsada playlist", this.playlist);
-      // console.log("pulsada cancion", this.currentSong);
-      // console.log("--------------------");
-
     },
   },
 
@@ -135,11 +170,15 @@ export default {
     this.token = this.apiService.getToken();
     this.getSongs();
     
+    
     if (this.token) {
       this.getFavorites();
       this.getPlaylist();
       this.user = "LogOut";
     }
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000); // Delay de 2 segundos
   },
 };
 </script>
@@ -152,6 +191,7 @@ export default {
       @favClicked="handleFav()"
       @plClicked="handlePlaylist()"
       @shClicked="handleSearch()"
+      @logout="handleLogout()"
     ></NavBar>
     <Transition>
       <UserFlowC
@@ -185,7 +225,7 @@ export default {
         @close="() => (searc = false)"
       ></SearchC>
     </Transition>
-    <ControlsC :currentSong="currentSong" :songs="songs" :playbackMode="playbackMode" :playlist="playlist"></ControlsC>
+    <ControlsC :currentSong="currentSong" :songs="songs" :playbackMode="playbackMode" :playlist="playlist" v-if="!isLoading" @next="playNext" @previous="playPrevious"></ControlsC>
   </div>
 </template>
 

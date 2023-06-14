@@ -21,3 +21,11 @@
     margin-right: 5vw;
 
 }
+
+.dialog-butons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+}

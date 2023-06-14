@@ -30,6 +30,11 @@ export class apiService {
         this.getToken();
         this.api.defaults.headers.common.Authorization = `Bearer ${this.token}`;
     }
+    public removeToken() {
+        this.token = '';
+        localStorage.removeItem('token');
+        this.api.defaults.headers.common.Authorization = '';
+    }
   
 
 /**
@@ -51,6 +56,7 @@ export class apiService {
     }
 
     public async logOut(): Promise<AxiosResponse<any>> {
+        this.setToken();
         return this.api.get('/logout');
     }
 

@@ -34,11 +34,26 @@ export default {
           console.log(response);
           localStorage.setItem("token", response.data.token);
           this.$emit("logged");
+          this.toast = true;
+          this.toastSuccess = true;
+          this.toastMessage = "Logged in successfully";
+          setTimeout(() => {
+            this.toast = false;
+            this.toastSuccess = false;
+            this.toastMessage = "";
+          }, 3000);
         })
         .catch((error) => {
           console.log(error);
           if (error.response.status == 401) {
-            alert("Wrong password or mail");
+            this.toast = true;
+            this.toastError = true;
+            this.toastMessage = "Wrong password or mail";
+            setTimeout(() => {
+              this.toast = false;
+              this.toastError = false;
+              this.toastMessage = "";
+            }, 3000);
           }
         });
     },
@@ -49,11 +64,26 @@ export default {
           console.log(response);
           localStorage.setItem("token", response.data.token);
           this.$emit("logged");
+          this.toast = true;
+          this.toastSuccess = true;
+          this.toastMessage = "Registered successfully";
+          setTimeout(() => {
+            this.toast = false;
+            this.toastSuccess = false;
+            this.toastMessage = "";
+          }, 3000);
         })
         .catch((error) => {
           console.log(error);
           if (error.response.status >= 400) {
-            alert("Wrong password or mail");
+            this.toast = true;
+            this.toastError = true;
+            this.toastMessage = "Invalid Credentials";
+            setTimeout(() => {
+              this.toast = false;
+              this.toastError = false;
+              this.toastMessage = "";
+            }, 3000);
           }
         });
       this.$emit("register");
@@ -113,7 +143,7 @@ export default {
     <Transition>
       <div v-if="toast" class="toast">
         <div class="toastError" v-if="toastError">
-          <p>Ha ocurrido un error</p>
+          <p>{{ toastMessage }}</p>
         </div>
         <div class="toastSuccess" v-if="toastSuccess">
           <p>{{ toastMessage }}</p>

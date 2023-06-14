@@ -136,7 +136,7 @@ export default {
     <Transition>
       <div v-if="toast" class="toast">
         <div class="toastError" v-if="toastError">
-          <p>Ha ocurrido un error</p>
+          <p>{{ toastMessage }}</p>
         </div>
         <div class="toastSuccess" v-if="toastSuccess">
           <p>{{ toastMessage }}</p>

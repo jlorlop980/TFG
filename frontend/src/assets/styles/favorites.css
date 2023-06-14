@@ -33,8 +33,9 @@
     border: 1px solid black;
     width: 80%;
     height: fit-content;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding: 9px;
 }
 
 .toolbar{
@@ -50,4 +51,11 @@
     position: absolute;
     right: 14px;
     top: 12px;
+}
+
+
+@media (max-width: 768px) {
+    .container{
+      width: 100vw;
+    }
 }
