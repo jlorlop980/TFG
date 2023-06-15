@@ -1,0 +1,87 @@
+.container {
+  /* position: absolute; */
+  bottom: 10%;
+  left: 50%;
+  /* transform: translateX(-50%); */
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  /* z-index: 0; */
+  margin-bottom: 3rem;
+}
+
+.controls {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.controles-superiores {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.controles-inferiores {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  gap: 3rem;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.reset-slider-vol {
+  display: flex;
+  flex-flow: row;
+  gap: 1rem;
+}
+
+.play {
+  background-color: var(--amarillo);
+  padding: 20px;
+  border-radius: 50px;
+  border: 0px;
+}
+
+.icono-play{
+    max-width: 28px;
+}
+
+.time {
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 2rem;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.names {
+  justify-content: center;
+  display: flex;
+  flex-flow: column;
+  font-size: 5rem;
+  align-items: center;
+  color: var(--azul);
+}
+.sliderTime {
+  width: 50vw;
+}
+.volume {
+  -webkit-appearance: slider-vertical;
+}
+
+.volControl {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 3rem;
+}
+.barra {
+  position: absolute;
+  bottom: 50px;
+}

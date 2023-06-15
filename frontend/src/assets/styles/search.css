@@ -11,6 +11,7 @@
   flex-flow: column nowrap;
   background-image: url("../images/searchBG.svg");
   background-position: 85%;
+  z-index: 10;
 }
 
 .toolbar {

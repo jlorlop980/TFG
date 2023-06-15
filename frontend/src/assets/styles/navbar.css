@@ -1,31 +1,45 @@
 @import url("./global.css");
 
-.navbar{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    font-family: var(--caligrafy);
-    color: var(--azul);
-    height: 10vh;
-    width: 100vw;
-    font-size: 1.5rem;
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  font-family: var(--caligrafy);
+  color: var(--azul);
+  height: 10vh;
+  width: 100vw;
+  font-size: 1.5rem;
 }
-.element{
+.element {
   cursor: pointer;
 }
-
-.titleNavbar{
-    font-size: 2rem;
-    margin-left: 5vw;
-    margin-right: 5vw;
-
+.elementIcon {
+  display: none;
+  
 }
 
-.dialog-butons{
+.titleNavbar {
+  font-size: 2rem;
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
+
+.dialog-butons {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   width: 80%;
+}
+
+@media (max-width: 768px) {
+  .element {
+    display: none;
+  }
+  .elementIcon{
+    cursor: pointer;
+    display: flex;
+    max-width: 50px;
+  }
 }

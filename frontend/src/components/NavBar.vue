@@ -75,10 +75,14 @@ export default {
 <template>
   <div class="navbar">
     <p class="element" v-on:click="clickedPlaylist">Playlist</p>
+    <img src="../assets/icons/plMobile.png"  v-on:click="clickedPlaylist" class="elementIcon">
     <p class="element" v-on:click="clickedFavorites">Favorites</p>
+    <img src="../assets/icons/favMobile.png" v-on:click="clickedFavorites" class="elementIcon">
     <p class="element titleNavbar" v-on:click="clickedTitle">Lofi Player</p>
     <p class="element" v-on:click="clickedAccount">{{ user }}</p>
+    <img src="../assets/icons/user.svg"  v-on:click="clickedAccount" class="elementIcon">
     <p class="element" v-on:click="clickedSearch">Search</p>
+    <img src="../assets/icons/magnifier.svg" v-on:click="clickedSearch" class="elementIcon">
   </div>
 
   <div v-if="isOpen" class="dialog-backdrop">

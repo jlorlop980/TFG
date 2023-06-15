@@ -13,7 +13,8 @@
     align-items: center;
     flex-flow: column nowrap;
     background-image: url("../images/favoritesBG.svg");
-    background-position: 85%;
+    background-position: 100%;
+    z-index: 10;
 }
 
 .favorites{

@@ -5,19 +5,22 @@
     box-sizing: border-box;
   } */
 
-body{
+/* body{
   margin:0px;
   padding:0px;
   box-sizing: border-box;
-}
+} */
 
-.main{
-    width: 100vw;
-    height: 100vh;
-    background-image: url("../images/mainBG.svg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
+.main {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../images/mainBG.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
 }
 
 .v-enter-active,
@@ -38,4 +41,11 @@ body{
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.selectPL {
+  height: 30px;
+  background-color: var(--amarillo);
+  border-radius: 50px;
+  width: 20vw;
 }

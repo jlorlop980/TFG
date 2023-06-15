@@ -93,7 +93,7 @@ export default {
             src="../assets/icons/removeLike.svg"
             @click="openDialog(favorite.id)"
           />
-          <p class="f-Cat">{{ favorite.songs.name }}</p>
+          <p class="f-Cat mw-50">{{ favorite.songs.name }}</p>
           <img src="../assets/icons/playNegro.svg" @click="playClicked(favorite.id_song)"/>
         </div>
       </div>

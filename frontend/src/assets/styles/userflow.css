@@ -8,11 +8,11 @@
   top: 0;
   right: 0;
   display: flex;
-
+  z-index: 10;
   align-items: center;
   flex-flow: column nowrap;
   background-image: url("../images/userFlowBG.svg");
-  background-position: 85%;
+  background-position: 100%;
 }
 
 .toolbar {

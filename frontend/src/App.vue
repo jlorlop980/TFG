@@ -36,6 +36,12 @@ export default {
       playlist: {} as Playlist,
       songs: [] as Song[],
       currentSong: {} as Song,
+      toast: false,
+      toastError: false,
+      toastSuccess: false,
+      toastMessage: "",
+      isOpenCreating: false,
+      addedPlaylistid:0,
     };
   },
 
@@ -43,6 +49,29 @@ export default {
     handleLogin() {
       this.login = !this.login;
       console.log(this.login);
+    },
+    addFav(){
+      this.apiService.setToken();
+      this.apiService.addFavorite(this.currentSong.id).then((response) => {
+        this.toast = true;
+        this.toastSuccess = true;
+        this.toastMessage = "Favorite added successfully";
+        setTimeout(() => {
+          this.toast = false;
+          this.toastSuccess = false;
+          this.toastMessage = "";
+        }, 3000);
+        console.log(response);
+      }).catch((error) => {
+        this.toast = true;
+        this.toastError = true;
+        this.toastMessage = "Alredy in favorites";
+        setTimeout(() => {
+          this.toast = false;
+          this.toastError = false;
+          this.toastMessage = "";
+        }, 3000);
+      });
     },
 
     handleFav() {
@@ -93,7 +122,7 @@ export default {
         .then((response) => {
           this.songs = response.data;
           this.currentSong = this.songs[0];
-          console.log(this.songs)
+          console.log(this.songs);
         })
         .catch((error) => {
           console.log(error);
@@ -105,46 +134,83 @@ export default {
       let cancion = this.songs.find((song) => song.id === id);
       if (cancion) {
         this.currentSong = cancion;
-
       }
     },
     playNext() {
-    if (this.playbackMode && this.playlist) {
-      const currentIndex = this.playlist.songs.findIndex(song => song.id === this.currentSong.id);
-      let nextIndex = currentIndex + 1;
-      if (nextIndex >= this.playlist.songs.length) {
-        nextIndex = 0; // Si es la última canción de la playlist, volvemos a la primera
+      if (this.playbackMode && this.playlist) {
+        const currentIndex = this.playlist.songs.findIndex(
+          (song) => song.id === this.currentSong.id
+        );
+        let nextIndex = currentIndex + 1;
+        if (nextIndex >= this.playlist.songs.length) {
+          nextIndex = 0; // Si es la última canción de la playlist, volvemos a la primera
+        }
+        this.currentSong = this.playlist.songs[nextIndex];
+      } else {
+        const currentIndex = this.songs.findIndex(
+          (song) => song.id === this.currentSong.id
+        );
+        let nextIndex = currentIndex + 1;
+        if (nextIndex >= this.songs.length) {
+          nextIndex = 0; // Si es la última canción del conjunto global, volvemos a la primera
+        }
+        this.currentSong = this.songs[nextIndex];
       }
-      this.currentSong = this.playlist.songs[nextIndex];
-    } else {
-      const currentIndex = this.songs.findIndex(song => song.id === this.currentSong.id);
-      let nextIndex = currentIndex + 1;
-      if (nextIndex >= this.songs.length) {
-        nextIndex = 0; // Si es la última canción del conjunto global, volvemos a la primera
+    },
+    handleCloseCreate() {
+      this.isOpenCreating = false;
+    },
+    playPrevious() {
+      if (this.playbackMode && this.playlist) {
+        const currentIndex = this.playlist.songs.findIndex(
+          (song) => song.id === this.currentSong.id
+        );
+        let prevIndex = currentIndex - 1;
+        if (prevIndex < 0) {
+          prevIndex = this.playlist.songs.length - 1; // Si es la primera canción de la playlist, volvemos a la última
+        }
+        this.currentSong = this.playlist.songs[prevIndex];
+      } else {
+        const currentIndex = this.songs.findIndex(
+          (song) => song.id === this.currentSong.id
+        );
+        let prevIndex = currentIndex - 1;
+        if (prevIndex < 0) {
+          prevIndex = this.songs.length - 1; // Si es la primera canción del conjunto global, volvemos a la última
+        }
+        this.currentSong = this.songs[prevIndex];
       }
-      this.currentSong = this.songs[nextIndex];
-    }
-  },
-  playPrevious() {
-    if (this.playbackMode && this.playlist) {
-      const currentIndex = this.playlist.songs.findIndex(song => song.id === this.currentSong.id);
-      let prevIndex = currentIndex - 1;
-      if (prevIndex < 0) {
-        prevIndex = this.playlist.songs.length - 1; // Si es la primera canción de la playlist, volvemos a la última
-      }
-      this.currentSong = this.playlist.songs[prevIndex];
-    } else {
-      const currentIndex = this.songs.findIndex(song => song.id === this.currentSong.id);
-      let prevIndex = currentIndex - 1;
-      if (prevIndex < 0) {
-        prevIndex = this.songs.length - 1; // Si es la primera canción del conjunto global, volvemos a la última
-      }
-      this.currentSong = this.songs[prevIndex];
-    }
-  },
-    handleLogout(){
+    },
+    handleLogout() {
       this.user = "Login";
       this.apiService.removeToken();
+    },
+    acceptCreation(){
+      this.apiService.addSongToPlaylist(this.addedPlaylistid,this.currentSong.id).then((response) => {
+        this.toast = true;
+        this.toastSuccess = true;
+        this.toastMessage = "Song added successfully";
+        this.getPlaylist();
+        setTimeout(() => {
+          this.toast = false;
+          this.toastSuccess = false;
+          this.toastMessage = "";
+          this.isOpenCreating = false;
+        }, 3000);
+        console.log(response);
+      }).catch((error) => {
+        this.toast = true;
+        this.toastError = true;
+        this.toastMessage = "Alredy in playlist";
+        setTimeout(() => {
+          this.toast = false;
+          this.toastError = false;
+          this.toastMessage = "";
+        }, 3000);
+      });
+    },
+    cancelNew() {
+      this.isOpenCreating = false;
     },
     playPlaylist(playlistId: number, songId: number) {
       // Obtener la playlist seleccionada
@@ -165,13 +231,15 @@ export default {
       // Cambiar el modo de reproducción a playlist
       this.playbackMode = true;
     },
+    openCreate() {
+      this.isOpenCreating = true;
+    },
   },
 
   mounted() {
     this.token = this.apiService.getToken();
     this.getSongs();
-    
-    
+
     if (this.token) {
       this.getFavorites();
       this.getPlaylist();
@@ -221,6 +289,16 @@ export default {
       ></PlaylistC>
     </Transition>
     <Transition>
+      <div v-if="toast" class="toast">
+        <div class="toastError" v-if="toastError">
+          <p>{{ toastMessage }}</p>
+        </div>
+        <div class="toastSuccess" v-if="toastSuccess">
+          <p>{{ toastMessage }}</p>
+        </div>
+      </div>
+    </Transition>
+    <Transition>
       <SearchC
         v-if="searc"
         :songs="songs"
@@ -228,8 +306,34 @@ export default {
         @playClick="updateCurrentSong"
       ></SearchC>
     </Transition>
-    <ControlsC :currentSong="currentSong" :songs="songs" :playbackMode="playbackMode" :playlist="playlist" v-if="!isLoading" @next="playNext" @previous="playPrevious"></ControlsC>
+    <ControlsC
+      :currentSong="currentSong"
+      :songs="songs"
+      :playbackMode="playbackMode"
+      :playlist="playlist"
+      v-if="!isLoading"
+      @next="playNext"
+      @previous="playPrevious"
+      @addFavorite="addFav"
+      @addToPl="openCreate"
+    ></ControlsC>
   </div>
+  <!-- modal crear playlist -->
+  <div v-if="isOpenCreating" class="dialog-backdrop">
+      <dialog :open="isOpenCreating" @close="handleCloseCreate" class="custom-dialog">
+        <p class="f-Marck f-15">Choose a Playlist</p>
+        <select name="artist" class="f-Marck selectPL" v-model="addedPlaylistid">
+              <option value=0>-</option>
+              <option :value="playl.id" v-for="playl in playlists">
+                {{ playl.name }}
+              </option>
+            </select>
+        <div class="dialog-butons">
+          <button class="boton-cancelar" @click="cancelNew">Cancel</button>
+          <button class="boton" @click="acceptCreation"  :disabled="addedPlaylistid==0">Add</button>
+        </div>
+      </dialog>
+    </div>
 </template>
 
 <style src="./assets/styles/main.css"></style>

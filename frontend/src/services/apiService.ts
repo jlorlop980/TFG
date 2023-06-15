@@ -72,7 +72,12 @@ export class apiService {
     public async deleteFavorite(id: number): Promise<AxiosResponse<any>> {
         this.setToken();
         return this.api.delete(`/favorite/${id}`);
-    }        
+    }
+
+    public async addFavorite(id_song: number): Promise<AxiosResponse<any>> {
+        this.setToken();
+        return this.api.post(`/favorite/${id_song}`);
+    }
 
 
 /**
@@ -95,6 +100,13 @@ export class apiService {
         this.setToken();
         return this.api.post('/playlist', {
             name,
+        });
+    }
+
+    public async addSongToPlaylist(playlistId: number, id_song: number): Promise<AxiosResponse<any>> {
+        this.setToken();
+        return this.api.post(`/playlist/${playlistId}/song`, {
+            id_song,
         });
     }
 
