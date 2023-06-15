@@ -50,9 +50,14 @@
     gap: 1rem;
     display: flex;
     flex-flow: column;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     
 }
-
+.playlists::-webkit-scrollbar {
+    display: none;
+  }
 .playlist-header{
     display: flex;
     flex-flow: row;
@@ -68,6 +73,19 @@
     align-items: center;
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--gris);
+}
+
+.input{
+    border-radius: 50px;
+    border: 1px solid black;
+    width: 60%;
+    height: 15%;
+    text-align: center;
+    font-family: var(--caligrafy);
+}
+
+.add{
+    margin-bottom: 5rem;
 }
 
 @media (max-width: 768px) {

@@ -22,7 +22,14 @@ export default {
       toastError: false, //string
       toastSuccess: false, //string
       toastMessage: "", //string
+      isOpen: false,
       showSongs: {} as { [key: number]: boolean },
+      dialogText: "",
+      possRemSong: 0, //number
+      possRemPLay: 0, //number
+      isOpenCreating: false, //boolean
+      newPlaylistName: "", //string
+      isValid: false, //boolean
     };
   },
 
@@ -30,8 +37,26 @@ export default {
     close() {
       this.$emit("close");
     },
+    accept() {
+      //eliminar lo que sea
+      if (this.possRemSong != 0) {
+        this.deletePlaylistSong(this.possRemPLay, this.possRemSong);
+        this.possRemSong = 0;
+        this.possRemPLay = 0;
+      } else {
+        this.deletePlaylist(this.possRemPLay);
+        this.possRemPLay = 0;
+      }
+      this.isOpen = false;
+    },
     toggleSongs(playlistId: number) {
       this.showSongs[playlistId] = !this.showSongs[playlistId];
+    },
+    cancel() {
+      this.isOpen = false;
+      this.possRemPLay = 0;
+      this.possRemSong = 0;
+      console.log("cancelado");
     },
 
     deletePlaylist(id: number) {
@@ -51,10 +76,33 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          this.toast = true;
+          this.toastError = true;
+          this.toastMessage = "Error removing Playlist";
+          setTimeout(() => {
+            this.toast = false;
+            this.toastError = false;
+            this.toastMessage = "";
+          }, 3000);
         });
     },
+    openDialog(idPL:number, idSong:number) {
+      if (idSong == 0) {
+        this.dialogText = "Are you sure you want to remove this Playlist?";
+      } else {
+        this.dialogText = "Are you sure you want to remove this Song?";
+      }
+      this.isOpen = true;
+      this.possRemPLay = idPL;
+      this.possRemSong = idSong;
+    },
+    handleClose() {
+      this.isOpen = false;
+      this.possRemPLay = 0;
+      this.possRemSong = 0;
+    },
     playSong(playlistId: number, songId: number) {
-      console.log("pulsado")
+      console.log("pulsado");
       this.$emit("play", playlistId, songId);
     },
     deletePlaylistSong(idPlaylist: number, idSong: number) {
@@ -75,6 +123,43 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    addPlaylist() {
+      console.log("addPlaylist");
+      this.isOpenCreating = true;
+    },
+    handleCloseCreate() {
+      this.isOpenCreating = false;
+    },
+    cancelNew() {
+      this.isOpenCreating = false;
+    },
+    acceptCreation() {
+      this.apiService
+        .createPlaylist(this.newPlaylistName)
+        .then((response) => {
+          this.toast = true;
+          this.toastSuccess = true;
+          this.toastMessage = "Playlist created successfully";
+          this.$emit("created");
+          setTimeout(() => {
+            this.toast = false;
+            this.toastSuccess = false;
+            this.toastMessage = "";
+          }, 3000);
+          console.log(response);
+        })
+        .catch((error) => {
+          this.toast = true;
+          this.toastError = true;
+          this.toastMessage = error.response.data.message;
+          setTimeout(() => {
+            this.toast = false;
+            this.toastError = false;
+            this.toastMessage = "";
+          }, 3000);
+        });
+      this.isOpenCreating = false;
     },
   },
 
@@ -103,10 +188,16 @@ export default {
             <img
               src="../assets/icons/removeLike.svg"
               class="dislike-icon"
-              @click="deletePlaylist(playlist.id)"
+              @click="openDialog(playlist.id, 0)"
             />
-            <p class="f-Cat f-1-5"  @click="toggleSongs(playlist.id)">{{ playlist.name }}</p>
-            <img src="../assets/icons/playNegro.svg" class="play-icon" @click="playSong(playlist.id,playlist.songs[0].id)"/>
+            <p class="f-Cat f-1-5" @click="toggleSongs(playlist.id)">
+              {{ playlist.name }}
+            </p>
+            <img
+              src="../assets/icons/playNegro.svg"
+              class="play-icon"
+              @click="playSong(playlist.id, playlist.songs[0].id)"
+            />
           </div>
           <!-- Canciones -->
           <div class="canciones" v-show="showSongs[playlist.id]">
@@ -114,7 +205,7 @@ export default {
               <img
                 src="../assets/icons/removeLike.svg"
                 class="dislike-icon"
-                @click="deletePlaylistSong(playlist.id, song.id)"
+                @click="openDialog(playlist.id, song.id)"
               />
               <p class="f-Cat f-20p">
                 <span class="f-Marck">{{ song.name }}</span> -
@@ -124,14 +215,21 @@ export default {
                     : song.artist.name
                 }}
               </p>
-              <img src="../assets/icons/playNegro.svg" class="play-icon" @click="playSong(playlist.id,song.id)"/>
+              <img
+                src="../assets/icons/playNegro.svg"
+                class="play-icon"
+                @click="playSong(playlist.id, song.id)"
+              />
             </div>
           </div>
         </div>
       </div>
+      <img src="../assets/icons/addBlanco.svg"
+      @click="addPlaylist()"
+      >
     </div>
     <p class="white" v-if="!token">LogIn to see your Playlist</p>
-    <p @click="close()" class="white">asdas</p>
+
 
     <Transition>
       <div v-if="toast" class="toast">
@@ -143,6 +241,27 @@ export default {
         </div>
       </div>
     </Transition>
+    <!-- Modal eliminar PL y canciones -->
+    <div v-if="isOpen" class="dialog-backdrop">
+      <dialog :open="isOpen" @close="handleClose" class="custom-dialog">
+        <p class="f-Marck f-15">{{ dialogText }}</p>
+        <div class="dialog-butons">
+          <button class="boton-cancelar" @click="cancel">No</button>
+          <button class="boton" @click="accept">Yes</button>
+        </div>
+      </dialog>
+    </div>
+    <!-- modal crear playlist -->
+    <div v-if="isOpenCreating" class="dialog-backdrop">
+      <dialog :open="isOpenCreating" @close="handleCloseCreate" class="custom-dialog">
+        <p class="f-Marck f-15">Name of the playlist</p>
+        <input type="text" v-model="newPlaylistName" class="input" />
+        <div class="dialog-butons">
+          <button class="boton-cancelar" @click="cancelNew">Cancel</button>
+          <button class="boton" @click="acceptCreation"  :disabled="!newPlaylistName">Create</button>
+        </div>
+      </dialog>
+    </div>
   </div>
 </template>
 

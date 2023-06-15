@@ -91,6 +91,13 @@ export class apiService {
         return this.api.get('/playlists');
     }
 
+    public async createPlaylist(name: string): Promise<AxiosResponse<any>> {
+        this.setToken();
+        return this.api.post('/playlist', {
+            name,
+        });
+    }
+
     public async deletePlaylist(id: number): Promise<AxiosResponse<any>> {
         this.setToken();
         return this.api.delete(`/playlist/${id}`);

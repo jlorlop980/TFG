@@ -217,6 +217,7 @@ export default {
         @removed="getPlaylist()"
         :playlists="playlists"
         @play="playPlaylist"
+        @created="getPlaylist()"
       ></PlaylistC>
     </Transition>
     <Transition>
