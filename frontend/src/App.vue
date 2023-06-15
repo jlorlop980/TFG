@@ -56,6 +56,7 @@ export default {
         this.toast = true;
         this.toastSuccess = true;
         this.toastMessage = "Favorite added successfully";
+        this.getFavorites();
         setTimeout(() => {
           this.toast = false;
           this.toastSuccess = false;
