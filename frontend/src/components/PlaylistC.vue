@@ -225,9 +225,10 @@ export default {
         </div>
         <img src="../assets/icons/addBlanco.svg" @click="addPlaylist()" />
       </div>
+      <p class="azul" v-if="!token">LogIn to see your Playlist</p>
     </div>
 
-    <p class="azul" v-if="!token">LogIn to see your Playlist</p>
+   
 
     <Transition>
       <div v-if="toast" class="toast">
