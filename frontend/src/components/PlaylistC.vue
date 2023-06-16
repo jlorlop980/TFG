@@ -86,7 +86,7 @@ export default {
           }, 3000);
         });
     },
-    openDialog(idPL:number, idSong:number) {
+    openDialog(idPL: number, idSong: number) {
       if (idSong == 0) {
         this.dialogText = "Are you sure you want to remove this Playlist?";
       } else {
@@ -223,13 +223,11 @@ export default {
             </div>
           </div>
         </div>
+        <img src="../assets/icons/addBlanco.svg" @click="addPlaylist()" />
       </div>
-      <img src="../assets/icons/addBlanco.svg"
-      @click="addPlaylist()"
-      >
     </div>
-    <p class="white" v-if="!token">LogIn to see your Playlist</p>
 
+    <p class="azul" v-if="!token">LogIn to see your Playlist</p>
 
     <Transition>
       <div v-if="toast" class="toast">
@@ -253,12 +251,22 @@ export default {
     </div>
     <!-- modal crear playlist -->
     <div v-if="isOpenCreating" class="dialog-backdrop">
-      <dialog :open="isOpenCreating" @close="handleCloseCreate" class="custom-dialog">
+      <dialog
+        :open="isOpenCreating"
+        @close="handleCloseCreate"
+        class="custom-dialog"
+      >
         <p class="f-Marck f-15">Name of the playlist</p>
         <input type="text" v-model="newPlaylistName" class="input" />
         <div class="dialog-butons">
           <button class="boton-cancelar" @click="cancelNew">Cancel</button>
-          <button class="boton" @click="acceptCreation"  :disabled="!newPlaylistName">Create</button>
+          <button
+            class="boton"
+            @click="acceptCreation"
+            :disabled="!newPlaylistName"
+          >
+            Create
+          </button>
         </div>
       </dialog>
     </div>

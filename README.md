@@ -1,66 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# TFG José Antonio Lorenzo López
 
-## About Laravel
+## Índice
+- Instalación
+- Donde encontrar la documentación
+- Endpoints
+- Enlace al despliegue
+- Licencia del proyecto
+---
+## Instalación
+1. Clonar el repositorio desde el repositorio remoto en tu máquina local.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+2. Asegúrate de tener Docker y Docker Compose instalados. Si estás utilizando macOS o Windows, puedes descargar Docker Desktop, y en el caso de Windows, asegúrate de tener WSL2 instalado. Si estás en Linux, sigue las instrucciones específicas para tu distribución.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+3. Crea un archivo .env a partir del archivo .env.example proporcionado. Asegúrate de no cambiar ninguna variable en este momento. 
 
-## Learning Laravel
+4. Crea un alias para simplificar los comandos utilizando el siguiente comando:
+`$ alias sail='[-f sail] && sh sail || sh vendor/bin/sail'`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+5. Levanta el proyecto utilizando el siguiente comando:
+`$ sail up -d`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+6. Genera la clave del servidor con el siguiente comando:
+`$ sail artisan key:generate`
 
-## Laravel Sponsors
+7. Instala las dependencias del proyecto utilizando el siguiente comando:
+`$ sail composer install`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+8. Realiza la migración de las tablas y los datos en la base de datos con el siguiente comando:
+`$ sail artisan migrate --seed`
 
-### Premium Partners
+Y ya podríamos acceder mediante el localhost a:
+- laravel localhost:80
+- Frontend localhost:8000    
+- phpmyadmin localhost:8080
++ credenciales: Servidor: mysql, Usuario: sail, Password: password**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+---
+## Donde encontrar la documentacion
+La documentación esta en la carpeta documentación, ahí se encuentra tanto el archivo de insomnia con las peticiones como la carpeta para ver las solicitudes en modo open api (menos recomendable) usando npx serve, recomiendo importar el archivo insomnia.json dentro de insomnia
 
-## Contributing
+---
+## Enlace al despliegue
+https://app.netlify.com/sites/precious-truffle-6b69ae/overview
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
+## EndPoints 
+|Método|Ruta|Descripción|
+|---|---|---|
+|GET|/user|Obtiene los datos del usuario autenticado|
+|POST|/register|Registra un nuevo usuario|
+|POST|/login|Inicia sesión de un usuario|
+|GET|/logout|Cierra sesión de un usuario|
+|GET|/genres|Obtiene todos los géneros|
+|GET|/genre/{id}|Obtiene un género por su ID|
+|POST|/genre|Crea un nuevo género|
+|DELETE|/genre/{id}|Elimina un género por su ID|
+|PUT|/genre/{id}|Actualiza un género por su ID|
+|GET|/songs|Obtiene todas las canciones|
+|GET|/song/{id}|Obtiene una canción por su ID|
+|GET|/songs/genre/{id}|Obtiene canciones por ID de género|
+|GET|/songs/artist/{id}|Obtiene canciones por ID de artista|
+|POST|/song|Crea una nueva canción|
+|DELETE|/song/{id}|Elimina una canción por su ID|
+|PUT|/song/{id}|Actualiza una canción por su ID|
+|GET|/artists|Obtiene todos los artistas|
+|GET|/artist/{id}|Obtiene un artista por su ID|
+|POST|/artist|Crea un nuevo artista|
+|DELETE|/artist/{id}|Elimina un artista por su ID|
+|PUT|/artist/{id}|Actualiza un artista por su ID|
+|GET|/playlists|Obtiene todas las listas de reproducción|
+|POST|/playlist|Crea una nueva lista de reproducción|
+|DELETE|/playlist/{id}|Elimina una lista de reproducción por su ID|
+|POST|/playlist/{id}/song|Agrega una canción a una lista de reproducción por su ID|
+|DELETE|/playlist/{id}/song|Elimina una canción de una lista de reproducción por su ID|
+|PUT|/playlist/{id}|Cambia el nombre de una lista de reproducción por su ID|
+|GET|/favorites|Obtiene los favoritos del usuario autenticado|
+|POST|/favorite/{id}|Crea un nuevo favorito por su ID|
+|DELETE|/favorite/{id}|Elimina un favorito por su ID|
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+## Licencia del proyecto
+ CC0 1.0 Universal (CC0 1.0)
