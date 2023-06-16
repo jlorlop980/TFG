@@ -243,7 +243,18 @@ export default {
       this.playbackMode = true;
     },
     openCreate() {
+      if(this.token){
       this.isOpenCreating = true;
+      }else{
+        this.toast = true;
+        this.toastError = true;
+        this.toastMessage = "You must be logged in to add a song to a playlist";
+        setTimeout(() => {
+          this.toast = false;
+          this.toastError = false;
+          this.toastMessage = "";
+        }, 3000);
+      }
     },
   },
 
