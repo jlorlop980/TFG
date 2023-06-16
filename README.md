@@ -44,7 +44,7 @@ La documentación esta en la carpeta documentación, ahí se encuentra tanto el 
 
 ---
 ## Enlace al despliegue
-https://app.netlify.com/sites/precious-truffle-6b69ae/overview
+https://precious-truffle-6b69ae.netlify.app/
 
 ---
 ## EndPoints 
