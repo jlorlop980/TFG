@@ -51,6 +51,7 @@ export default {
       console.log(this.login);
     },
     addFav(){
+      if(this.token != ""){
       this.apiService.setToken();
       this.apiService.addFavorite(this.currentSong.id).then((response) => {
         this.toast = true;
@@ -73,7 +74,16 @@ export default {
           this.toastMessage = "";
         }, 3000);
       });
-    },
+    }else{
+      this.toast = true;
+      this.toastError = true;
+      this.toastMessage = "You must be logged in";
+      setTimeout(() => {
+        this.toast = false;
+        this.toastError = false;
+        this.toastMessage = "";
+      }, 3000);
+    }},
 
     handleFav() {
       this.fav = !this.fav;
